@@ -55,8 +55,9 @@
      <Compile Include="Assets\DownloadedAssets\SailCharacterPack\Scripts\DemoCamera.cs" />
      <Compile Include="Assets\DownloadedAssets\SailCharacterPack\Scripts\FacialExpressions.cs" />
      <Compile Include="Assets\DownloadedAssets\SailCharacterPack\Scripts\SmallFishEmitter.cs" />
-     <Compile Include="Assets\Scripts\Riser.cs" />
-     <Compile Include="Assets\Scripts\SkyboxAnimator.cs" />
+     <Compile Include="Assets\Scripts\DestoryByBoundary.cs" />
+     <Compile Include="Assets\Scripts\GameController.cs" />
+     <Compile Include="Assets\Scripts\Mover.cs" />
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-Basic.shader" />
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-BasicOutline.shader" />
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-LightedOutline.shader" />

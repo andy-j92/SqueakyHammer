@@ -1,8 +1,9 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class Mover : MonoBehaviour
-{
+public class SquidMover : MonoBehaviour {
+
     public float speed;
 
     private Rigidbody rb;
@@ -16,7 +17,7 @@ public class Mover : MonoBehaviour
     void Update()
     {
         rb = GetComponent<Rigidbody>();
-        if(rb.position.y >= 0.0f)
+        if (rb.position.y >= 0.4f)
         {
             rb.velocity = Vector3.up * -speed;
         }

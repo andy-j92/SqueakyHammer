@@ -10,21 +10,30 @@ public class GameController : MonoBehaviour {
     public GameObject[] holes;
     public GameObject[] enemies;
 
-    private List<MoleHole> _moleHoles;
+    public GUIText scoreText;
+    public GUIText gameOverText;
+
+    private List<MoleHole> _moleHoles = new List<MoleHole>();
     private List<MoleHole> _activeHoles = new List<MoleHole>();
+    private int score;
+    private bool gameOver;
+    private float playTime;
 
 	// Use this for initialization
 	void Start () {
-        _moleHoles = new List<MoleHole>();
+
+        score = 0;
+        UpdateScore();
         for (int i = 0; i < holes.Length; i++)
         {
             _moleHoles.Add(new MoleHole(holes[i], null, false));
         }
         StartCoroutine(SpawnWaves());
+        StartCoroutine(SpawnWaitManager());
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update () {
         for (int i = 0; i < _activeHoles.Count; i++)
         {
             if(_activeHoles[i].enemy == null)
@@ -42,12 +51,21 @@ public class GameController : MonoBehaviour {
         {
             for (int i = 0; i < enemyCount; i++)
             {
+                if (_activeHoles.Count == 9)
+                {
+                    yield return new WaitForSeconds(0.1f);
+                    Debug.Log("HIT");
+                }
                 var hole = GetInActiveHole();
 
                 GameObject enemy = enemies[Random.Range(0, enemies.Length)];
                 Quaternion spawnRotation = Quaternion.identity;
                 Vector3 spawnPosition = hole.GetHole().transform.position;
-                spawnPosition.y -= 1.1f;
+
+                if(enemy.tag == "SpecialEnemy")
+                    spawnPosition.y -= 0.65f;
+                else
+                    spawnPosition.y -= 1.1f;
 
                 hole.enemy = Instantiate(enemy, spawnPosition, spawnRotation);
                 hole.isActive = true;
@@ -55,7 +73,41 @@ public class GameController : MonoBehaviour {
 
                 yield return new WaitForSeconds(Random.Range(0, spawnWait));
             }
+
+            if (gameOver)
+            {
+                gameOverText.text = "GAME OVER";
+            }
         }
+    }
+
+
+    IEnumerator SpawnWaitManager()
+    {
+        while(spawnWait > 0.0f)
+        {
+            yield return new WaitForSeconds(5);
+            spawnWait -= 0.25f;
+        }
+
+
+    }
+
+    public void AddScore(int newScoreValue)
+    {
+        score += newScoreValue;
+        UpdateScore();
+    }
+
+    void UpdateScore()
+    {
+        scoreText.text = "Score: " + score;
+    }
+
+    public void GameOver()
+    {
+        gameOverText.text = "Game Over";
+        gameOver = true;
     }
 
     MoleHole GetInActiveHole()
